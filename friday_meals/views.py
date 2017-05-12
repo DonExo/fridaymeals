@@ -322,6 +322,7 @@ from django.dispatch import receiver
 
 @receiver(request_finished)
 def print_it(sender, **kwargs):
+    print "Added testbranch print"
     print "Request finished"
 
 #@receiver(pre_save, sender=Order)
