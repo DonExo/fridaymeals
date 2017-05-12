@@ -323,6 +323,7 @@ from django.dispatch import receiver
 @receiver(request_finished)
 def print_it(sender, **kwargs):
     print "Added testbranch print"
+    print "Added son-of-test-branch"
     print "Request finished"
 
 #@receiver(pre_save, sender=Order)
