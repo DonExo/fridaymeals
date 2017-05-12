@@ -1,0 +1,66 @@
+[
+{
+    "model": "friday_meals.user",
+    "fields": {
+        "password": "pbkdf2_sha256$36000$ZFk03yDGEAUC$8QI8oLnjOORsmgEgZs6BJ1WnV6zAGa4mGuF0mDSm/wk=",
+        "last_login": "2017-05-02T11:46:14.231Z",
+        "is_superuser": true,
+        "first_name": "Donald",
+        "last_name": "Dimitriovski",
+        "email": "donald@ss.eu",
+        "is_staff": true,
+        "is_active": true,
+        "activated": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "friday_meals.user",
+    "fields": {
+        "password": "asdasd2",
+        "last_login": "2017-05-02T13:54:52Z",
+        "is_superuser": false,
+        "first_name": "Test2",
+        "last_name": "Account2",
+        "email": "test@acc2.com",
+        "is_staff": false,
+        "is_active": true,
+        "activated": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "friday_meals.user",
+    "fields": {
+        "password": "asdasd3",
+        "last_login": "2017-05-02T13:55:13Z",
+        "is_superuser": false,
+        "first_name": "Test3",
+        "last_name": "Acc3",
+        "email": "test3@com.ca",
+        "is_staff": false,
+        "is_active": true,
+        "activated": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "friday_meals.user",
+    "fields": {
+        "password": "asdasd4",
+        "last_login": "2017-05-02T13:55:13Z",
+        "is_superuser": false,
+        "first_name": "Test4",
+        "last_name": "Acc4",
+        "email": "test4@com.ca",
+        "is_staff": false,
+        "is_active": true,
+        "activated": false,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

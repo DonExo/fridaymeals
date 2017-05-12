@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row-fluid" >
+    <div class="page-header">
+         {% if category %}
+             <h2 align="center">In category: <b>{{ category.title }}</b></h2>
+         {% endif %}
+    </div>
+
+    <div class="span6">
+    {% if meals %}
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-default">
+        <tr>
+            <th>Meal Title </th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td class="span1"><a href="{% url 'meal' meal.id %}">{{ meal.title }}</a></td>
+                <td class="span1">{{ meal.price }} мкд</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <p><i><a href="{% url 'category' %}"><= Back</a> to categories</i></p>
+    {% else %}
+        <p>No meals for this category!</p>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

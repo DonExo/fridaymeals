@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Activation token</title>
+</head>
+<body>
+    <div style="width: 500px; height: 500px; background-color: lightgray; ">
+        <p>
+        Hello {{ user }},<br>
+            Your profile has been created, but needs to be activated.<br>
+            Please click this <a href="http://127.0.0.1:8000{% url 'activate_token' token %}"><b>L I N K</b></a> to activate your account.
+
+            BR.<br/>
+            Admin.
+        </p>
+    </div>
+
+</body>
+</html>

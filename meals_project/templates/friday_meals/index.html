@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+    {% block content %}
+        <div class="page-header">
+             <h2 align="center">Index page</h2>
+        </div>
+
+    <h3>There will probably be some kind of Meals feed...</h3>
+
+        <p>Meanwhile, check out all categories and meals...</p>
+        <ul>
+            <li><a href="{% url 'category' %}"> Categories</a></li>
+        </ul>
+        <p>or try <a href="{% url 'login' %}">logging in</a> to select your meal..</p>
+    {% endblock %}

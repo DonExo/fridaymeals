@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+    <div class="page-header">
+             <h2 align="center">Admin panel</h2>
+    </div>
+
+    {% if order_disabled %}<h5 align="center" style="color: red;"> <u>Meals have already been submitted by staff</u>
+        <br/> <span style="color: green;"><a href="{% url 'admin_undo_order' %}">U N D O !</a></span></h5>
+    {% endif %}
+        {% if orders %}
+            <h4>Current week meals to order:</h4>
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-default">
+                <tr>
+                    <th>Order #</th>
+                    <th>User</th>
+                    <th>Meal</th>
+                    <th>Comment</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td class="span1">{{ order.id }}</td>
+                        <td class="span2">{{ order.user.get_full_name }}</td>
+                        <td class="span2">{{ order.meal }}</td>
+                        <td class="span4">{{ order.comment }}</td>
+                        <td class="span2">{{ order.meal.price }} мкд</td>
+                        <td class="span1"><input type="button" class="btn btn-danger btn-mini" value="Remove"
+                            onclick="window.location='{% url 'delete_meal_from_order' order.id %}'"
+                        ></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div style="clear: both; float: right;">
+                <hr/>
+            <p>Total: {{ suma }} мкд</p>
+            </div>
+        {% else %}
+            <p>No orders yet!</p>
+        {% endif %}
+
+<button class="btn btn-primary btn-block" onclick="window.location='/send_order_to_staff/'" {% if order_disabled %} disabled title="Order is already submitted!"  {% endif %}>Send orders to staff!</button>
+
+{% endblock %}

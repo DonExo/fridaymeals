@@ -1,0 +1,57 @@
+[
+{
+    "model": "friday_meals.order",
+    "fields": {
+        "user": 1,
+        "meal": 2,
+        "date": "2017-03-02",
+        "weekNumber": 11,
+        "comment": "fasfasf",
+        "rating": "3"
+    }
+},
+{
+    "model": "friday_meals.order",
+    "fields": {
+        "user": 1,
+        "meal": 1,
+        "date": "2017-02-02",
+        "weekNumber": 6,
+        "comment": "fasfasf",
+        "rating": "3"
+    }
+},
+{
+    "model": "friday_meals.order",
+    "fields": {
+        "user": 2,
+        "meal": 21,
+        "date": "2017-04-01",
+        "weekNumber": 1,
+        "comment": "fasfasf",
+        "rating": "3"
+    }
+},
+{
+    "model": "friday_meals.order",
+    "fields": {
+        "user": 3,
+        "meal": 42,
+        "date": "2017-01-02",
+        "weekNumber": 1,
+        "comment": "fasfasf",
+        "rating": "3"
+    }
+},
+{
+    "model": "friday_meals.order",
+    "fields": {
+        "user": 4,
+        "meal": 15,
+        "date": "2017-01-01",
+        "weekNumber": 1,
+        "comment": "fasfasf",
+        "rating": "3"
+    }
+}
+]

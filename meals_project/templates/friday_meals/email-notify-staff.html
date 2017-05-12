@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email temlate</title>
+</head>
+<body>
+    <div style="width: 500px; height: 500px; background-color: lightgray; ">
+        <p>
+        Zdravo Kiki,<br>
+        Ova se narackite za denes!<br>
+        </p>
+        <ul>
+
+        <table border="1" class="table table-bordered table-striped table-hover">
+                <thead class="thead-default">
+                <tr>
+                    <th>User</th>
+                    <th>Meal</th>
+                    <th>Comment</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for lst in lista %}
+                    <tr>
+                        <td class="span2">{{ lst.user.get_full_name }}</td>
+                        <td class="span2">{{ lst.meal }}</td>
+                        <td class="span4">{{ lst.meal.comment }}</td>
+                        <td class="span2">{{ lst.meal.price }} мкд</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        <div style="clear: both; float: right;">
+            <hr/>
+        <p>Total: {{ suma }} мкд</p>
+        </div>
+        </ul>
+    </div>
+
+</body>
+</html>

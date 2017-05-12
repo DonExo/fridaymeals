@@ -1,0 +1,98 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if title %}
+            Friday meals - {{ title }}
+        {% else %}
+            Friday meals
+        {% endif %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="/"><img src="{% static 'img/logo.png' %}" width="60px" height="60px"/></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right">
+                            {% if user.is_authenticated %}
+                                <li><a href="/profile/">Profile</a></li>
+                                {% if user.is_superuser %}
+                                   <li><a href="{% url 'admin_panel' %}">Admin Panel</a></li>
+                                {% endif %}
+                                <li><a href="/logout/">Logout</a></li>
+                            {% else %}
+                                <li><a href="/register/">Register</a></li>
+                                <li><a href="/login/">Login</a></li>
+                            {% endif %}
+                        </ul>
+                        <ul class="nav">
+                            {% if user.is_authenticated %}
+                                <li><a href="#">Hello, {{ user.first_name }}</a></li>
+                            {% else %}
+                                 <li><a href="#">Hello Symphonian :)</a></li>
+                            {% endif %}
+                            <li>
+                                 <li class="dropdown">
+                                  <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">Categories<span class="caret"></span></a>
+                                  <ul class="dropdown-menu">
+                                      {% for category in categories %}
+                                        <li><a href="{% url 'category_items' category.id %}">{{ category.title }}</a> </li>
+                                      {% endfor %}
+
+                                  </ul>
+                                </li>
+                            </li>
+                            <li><input style="margin-top: 5px; margin-left: 5px; text-align: center;" type="text" name="meal_search" id="meal_search" class="search-query" autocomplete="off" placeholder="Search for a meal"></li>
+                        </ul>
+                    </div>
+                <!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+    <hr/>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                 <div class="alert alert-{{ message.tags }} flash"><p align="center">{{ message }}</p></div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+     <div id="searched_meals" class="moja">
+     </div>
+
+    <div class="row">
+         {% block content %}
+         {% endblock content %}
+    </div>
+
+ </div>  <!-- Main div 'container' -->
+
+
+
+<footer class="footer">
+    <p align="center">Symphony Solutions - Friday Meals &copy;</p>
+</footer>
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

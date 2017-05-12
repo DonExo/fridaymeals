@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="page-header">
+             <h2 align="center">Meal view - {{ meal.title }}</h2>
+    </div>
+    <p>Back to category: <a href="{% url 'category_items' meal.category.id  %}">{{ meal.category }}</a></p>
+
+    <div class="row-fluid">
+        <div class="span6">
+            {% if meal %}
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Meal title</th>
+                <td>{{ meal.title }}</td>
+            </tr>
+            <tr>
+                <th>Ingredients</th>
+                <td>{{ meal.ingredients }}</td>
+            </tr>
+            <tr>
+                 <th>Price</th>
+                 <td>{{ meal.price }} мкд</td>
+            </tr>
+            <tr>
+                  <th>Image(s)</th>
+                  <td>{{ meal.picture }}</td>
+            </tr>
+        </table>
+            {% else %}
+                No such meal
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

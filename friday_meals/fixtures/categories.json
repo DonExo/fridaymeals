@@ -1,0 +1,62 @@
+[
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Појадок"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Сендвичи"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Паста"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Рижото"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Ладно мезе"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Топло мезе"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Салати"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Пици"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Главно јадење"
+    }
+},
+{
+    "model": "friday_meals.category",
+    "fields": {
+        "title": "Десерти"
+    }
+}
+]

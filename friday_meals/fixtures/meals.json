@@ -1,0 +1,783 @@
+[
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 1,
+        "title": "Омлет",
+        "ingredients": "",
+        "price": "84.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 1,
+        "title": "Јајца со сланина",
+        "ingredients": "",
+        "price": "84.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 1,
+        "title": "Пржени лепчиња",
+        "ingredients": "",
+        "price": "77.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 2,
+        "title": "Ладен сендвич",
+        "ingredients": "",
+        "price": "70.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 2,
+        "title": "Клуб сендвич",
+        "ingredients": "",
+        "price": "91.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 2,
+        "title": "Пица сендвич",
+        "ingredients": "",
+        "price": "98.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 2,
+        "title": "Нола сендвич",
+        "ingredients": "",
+        "price": "119.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 2,
+        "title": "Тортиља",
+        "ingredients": "",
+        "price": "119.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 2,
+        "title": "Солена палачинка",
+        "ingredients": "",
+        "price": "98.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 3,
+        "title": "Шпагети Базилико",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 3,
+        "title": "Шпагети Карбонара",
+        "ingredients": "",
+        "price": "147.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 3,
+        "title": "Њоки со 4 сирења",
+        "ingredients": "",
+        "price": "196.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 3,
+        "title": "Тортелини си пршута",
+        "ingredients": "",
+        "price": "196.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 3,
+        "title": "Таљатели шумски",
+        "ingredients": "",
+        "price": "189.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 4,
+        "title": "Пилешко",
+        "ingredients": "",
+        "price": "168.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 4,
+        "title": "Зеленчук",
+        "ingredients": "",
+        "price": "161.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 4,
+        "title": "Вргањ",
+        "ingredients": "",
+        "price": "205.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 5,
+        "title": "Кашкавал овчи",
+        "ingredients": "",
+        "price": "98.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 5,
+        "title": "Пармезан",
+        "ingredients": "",
+        "price": "140.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 5,
+        "title": "Пршута",
+        "ingredients": "",
+        "price": "140.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 5,
+        "title": "Овчо сирење",
+        "ingredients": "",
+        "price": "70.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 5,
+        "title": "Сирење со лута пиперка",
+        "ingredients": "",
+        "price": "105.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 5,
+        "title": "Мешани сирења",
+        "ingredients": "",
+        "price": "210.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Похована зденка",
+        "ingredients": "",
+        "price": "63.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Похован кашкавал",
+        "ingredients": "",
+        "price": "63.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Пилешки прсти",
+        "ingredients": "",
+        "price": "110.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Пилешки крилца",
+        "ingredients": "",
+        "price": "119.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Тиквички чипс",
+        "ingredients": "",
+        "price": "77.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Шампињони",
+        "ingredients": "",
+        "price": "84.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Вргањ мезе",
+        "ingredients": "",
+        "price": "175.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Помфрит",
+        "ingredients": "",
+        "price": "49.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Помфрит со сирење",
+        "ingredients": "",
+        "price": "63.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Сирење на скара",
+        "ingredients": "",
+        "price": "56.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Брускети Помодоро",
+        "ingredients": "",
+        "price": "84.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Микс панирана даска",
+        "ingredients": "",
+        "price": "210.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Фурнарини",
+        "ingredients": "",
+        "price": "35.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 6,
+        "title": "Фурнарини со кашкавал",
+        "ingredients": "",
+        "price": "63.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Грчка салата",
+        "ingredients": "",
+        "price": "84.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Мешана салата",
+        "ingredients": "",
+        "price": "70.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Цезар салата",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Пармезан салата",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Медитеранска салата",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Шеф салата",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Туна салата",
+        "ingredients": "",
+        "price": "112.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Капрезе салата",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 7,
+        "title": "Нола салата",
+        "ingredients": "",
+        "price": "168.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Маргарита",
+        "ingredients": "",
+        "price": "133.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Капричоза",
+        "ingredients": "",
+        "price": "168.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Вегетеријанска",
+        "ingredients": "",
+        "price": "168.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Дијаволо",
+        "ingredients": "",
+        "price": "182.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Кватро формаџо",
+        "ingredients": "",
+        "price": "196.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Триколори",
+        "ingredients": "",
+        "price": "224.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 8,
+        "title": "Калабрезе",
+        "ingredients": "",
+        "price": "168.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Пилешки стек на скара",
+        "ingredients": "",
+        "price": "105.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Пилешки стек во кари сос",
+        "ingredients": "",
+        "price": "154.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Пилешки стек во сос од бадем",
+        "ingredients": "",
+        "price": "154.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Пилешки похован стек",
+        "ingredients": "",
+        "price": "119.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "2 Пилешки ражничи",
+        "ingredients": "",
+        "price": "119.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "2 Свински ражничи",
+        "ingredients": "",
+        "price": "119.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Бечка шницла",
+        "ingredients": "",
+        "price": "168.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Свинско филе",
+        "ingredients": "",
+        "price": "231.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Медаљони пиканте",
+        "ingredients": "",
+        "price": "336.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 9,
+        "title": "Бифтек",
+        "ingredients": "",
+        "price": "665.00",
+        "available": false,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Топло ладно",
+        "ingredients": "",
+        "price": "91.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Палачинка-крем банана",
+        "ingredients": "",
+        "price": "77.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Палачина-Нутела",
+        "ingredients": "",
+        "price": "91.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Палачинка-мед ореви",
+        "ingredients": "",
+        "price": "98.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Овошна салата",
+        "ingredients": "",
+        "price": "105.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Сладолед",
+        "ingredients": "",
+        "price": "70.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Чизкејк",
+        "ingredients": "",
+        "price": "91.00",
+        "available": true,
+        "picture": ""
+    }
+},
+{
+    "model": "friday_meals.meal",
+    "fields": {
+        "category": 10,
+        "title": "Пакакота",
+        "ingredients": "",
+        "price": "63.00",
+        "available": true,
+        "picture": ""
+    }
+}
+]

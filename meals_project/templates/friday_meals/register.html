@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <ul class="messages">
+        {% for field in user_form.non_field_errors %}
+             <div class="alert alert-{{ field.tags }} flash"><p align="center">{{ field }}</p></div>
+        {% endfor %}
+    </ul>
+
+    <div class="page-header">
+             <h2 align="center">Register form</h2>
+    </div>
+    <div class="span4">
+        <form action="{% url 'register' %}" method="post" id="user_form" class="form-inline" autocomplete="off">
+           {% csrf_token %}
+            {% for field in user_form.visible_fields %}
+                    {{ field.help_text }} <br/>
+                    {{ field }} <br/>
+                    <span style="color:red;">{{ field.errors }}</span>
+                    <p></p>
+           {% endfor %}
+            <input type="submit" value="Register" class="btn btn-block btn-primary">
+        </form>
+     </div>
+{% endblock %}
