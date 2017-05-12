@@ -2,3 +2,4 @@
 friday_meals/*.pyc
 friday_meals/migrations/*.pyc
 meals_project/.*pyc
+*.pyc
