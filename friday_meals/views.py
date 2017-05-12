@@ -201,8 +201,6 @@ def assign_category(request):
     return HttpResponse(json.dumps(meals_list))
 
 
-
-
 def get_searched_meals(string=''):
     meals_list = []
     if string:
@@ -219,8 +217,6 @@ def search_meals(request):
         meals_list = get_searched_meals(string)
 
     return render(request, 'friday_meals/search_meal.html', {'meals_list':meals_list})
-
-
 
 
 def reset_meal(request):
