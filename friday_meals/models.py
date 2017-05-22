@@ -20,7 +20,7 @@ class Category(models.Model):
 
 
 class Meal(models.Model):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, models.CASCADE)
     title = models.CharField(_('Meal title'), max_length=128, unique=True)
     ingredients = models.TextField(_('Ingredients'), blank=True)
     price = models.DecimalField(_('Price'), max_digits=5, decimal_places=2, default=0)

@@ -252,13 +252,13 @@ def send_order_to_staff(request):
         all_meals_query = Order.objects.filter(weekNumber=CURRENT_WEEK)
 
         suma = 0
-        for ord in all_meals_query:
-            suma += ord.meal.price
+        for order in all_meals_query:
+            suma += order.meal.price
         lista = [meal for meal in all_meals_query]
 
         notify_staff_to_order(lista, suma) # Email notification to staff member
 
-        ordered = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK) # Check if is an order for the current week
+        ordered = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK) # Check if is an order for the current week (added ability to "Undo" order)
         if ordered:
             ordered.update(submitted=True) # If it is, submit it / lock it
         else:
