@@ -16,7 +16,6 @@ class EmailThread(threading.Thread):
         send_mail(self.subject, 'body text?', 'from@example.com', self.recipient_list, html_message=self.html_message)
 
 
-
 def notify_user_deleted_meal(user):
 
     html = render_to_string(
