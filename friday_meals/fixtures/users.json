@@ -10,7 +10,7 @@
         "email": "donald@ss.eu",
         "is_staff": true,
         "is_active": true,
-        "activated": false,
+        "activated": true,
         "groups": [],
         "user_permissions": []
     }
