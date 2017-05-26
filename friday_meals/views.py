@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
+from django.db.models import Count
 from .models import User, Meal, Category, Order, SubmitOrder
 from .forms import UserRegisterForm, MealPickForm, LoginForm
 from .utils import CURRENT_WEEK
@@ -150,7 +151,19 @@ def admin_panel(request):
     for ord in get_all_orders:
         suma += ord.meal.price
 
-    dictionary.update({'orders':get_all_orders, 'suma':suma})
+    nov = {}
+
+    os = Order.objects.filter(weekNumber=21).values('meal_id').order_by().annotate(total=Count('meal_id'))
+    for o in os:
+        #print o['total'], o['meal_id']
+        meal_name = Meal.objects.filter(id=o['meal_id']).first()
+        val = o['total']
+        nov.update({meal_name:val})
+    print nov
+
+
+
+    dictionary.update({'orders':get_all_orders, 'suma':suma, 'nov':nov})
 
     order = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
     if order:
@@ -251,6 +264,7 @@ def send_order_to_staff(request):
     if referer and referer.rsplit('/', 2)[1] == 'admin_panel': # Check if the button was clicked from the ADMIN PROFILE panel otherwise don't do it
         all_meals_query = Order.objects.filter(weekNumber=CURRENT_WEEK)
 
+
         suma = 0
         for order in all_meals_query:
             suma += order.meal.price
@@ -313,22 +327,3 @@ def delete_meal_from_order(request, id):
         notify_user_deleted_meal(to_delete.user) # Notify user that his meal was deleted
         return HttpResponseRedirect('/admin_panel/')
 
-# # Signals example ##
-#
-# from django.core.signals import request_finished
-# from django.db.models.signals import pre_save
-# from django.dispatch import receiver
-#
-#
-# @receiver(request_finished)
-# def print_it(sender, **kwargs):
-#     print "Added testbranch print"
-#     print "Added son-of-test-branch"
-#     print "Request finished"
-#
-# #@receiver(pre_save, sender=Order)
-# def default_week_number(sender, instance, **kwargs):
-#     if instance.date:
-#         instance.weekNumber = instance.date.isocalendar()[1]
-#
-# pre_save.connect(default_week_number, sender=Order)

@@ -7,8 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 from meals_project.settings import RATINGS
 from friday_meals.utils import get_current_date
-
-
+#
+#os = Order.objects.filter(weekNumber=21).values('meal_id').order_by().annotate(Count('meal_id'))
+#
 class Category(models.Model):
     title = models.CharField(_('Category title'), max_length=128, unique=True)
 

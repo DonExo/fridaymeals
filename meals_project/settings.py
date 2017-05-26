@@ -1,7 +1,8 @@
 import os
 from datetime import datetime
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+DEBUG = True
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -17,6 +18,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 LOGIN_URL = '/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -37,9 +39,6 @@ RATINGS = (
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '$1xd#tg-#vsjnjy9y7i$o6j6-+k=!t2e*it6j7396-jloq=s^g'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
     'testserver',
@@ -142,3 +141,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'meals_project', 'static'),
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')

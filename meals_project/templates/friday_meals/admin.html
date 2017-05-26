@@ -3,10 +3,14 @@
 
 
 {% block content %}
-
     <div class="page-header">
              <h2 align="center">Admin panel</h2>
     </div>
+
+    {% for n in nov %}
+        {{ n.meal_name }} - {{ n.val }}
+    {% endfor %}
+
 
     {% if order_disabled %}<h5 align="center" style="color: red;"> <u>Meals have already been submitted by staff</u>
         <br/> <span style="color: green;"><a href="{% url 'admin_undo_order' %}">U N D O !</a></span></h5>
@@ -25,6 +29,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for order in orders %}
                     <tr>
                         <td class="span1">{{ order.id }}</td>
