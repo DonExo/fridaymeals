@@ -7,51 +7,74 @@
              <h2 align="center">Admin panel</h2>
     </div>
 
-    {% for key, val in aggregatedOrderList.items %}
-        {{ key.meal_name }} - {{ val.value }} <br>
-    {% endfor %}
+        {% if order_disabled %}<h5 align="center" style="color: red;"> <u>Meals have already been submitted by staff</u>
+            <br/> <span style="color: green;"><a href="{% url 'admin_undo_order' %}">U N D O !</a></span></h5>
+        {% endif %}
 
+     <div class="row-fluid">
 
-    {% if order_disabled %}<h5 align="center" style="color: red;"> <u>Meals have already been submitted by staff</u>
-        <br/> <span style="color: green;"><a href="{% url 'admin_undo_order' %}">U N D O !</a></span></h5>
-    {% endif %}
-        {% if orders %}
-            <h4>Current week meals to order:</h4>
-            <table class="table table-bordered table-striped table-hover">
+        <div class="span4" >
+        <h4 align="center" style="color: darkblue;"> Aggregated list of orders.</h4>
+            {% if aggregated_orders %}
+                <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-default">
                 <tr>
-                    <th>Order #</th>
-                    <th>User</th>
-                    <th>Meal</th>
-                    <th>Comment</th>
-                    <th>Price</th>
-                    <th>Remove</th>
+                    <th>Meal title</th>
+                    <th>Quantity</th>
                 </tr>
                 </thead>
                 <tbody>
-
-                {% for order in orders %}
-                    <tr>
-                        <td class="span1">{{ order.id }}</td>
-                        <td class="span2">{{ order.user.get_full_name }}</td>
-                        <td class="span2">{{ order.meal }}</td>
-                        <td class="span4">{{ order.comment }}</td>
-                        <td class="span2">{{ order.meal.price }} мкд</td>
-                        <td class="span1"><input type="button" class="btn btn-danger btn-mini" value="Remove"
-                            onclick="window.location='{% url 'delete_meal_from_order' order.id %}'"
-                        ></td>
-                    </tr>
-                {% endfor %}
+                    {% for key, value in aggregated_orders.iteritems %}
+                         <tr>
+                            <td >{{ key }}</td>
+                            <td >{{ value }}</td>
+                         </tr>
+                    {% endfor %}
                 </tbody>
-            </table>
-            <div style="clear: both; float: right;">
-                <hr/>
-            <p>Total: {{ suma }} мкд</p>
-            </div>
-        {% else %}
-            <p>No orders yet!</p>
-        {% endif %}
+                </table>
+             <button class="btn btn-primary btn-block" onclick="window.location='{% url 'send_order_to_staff' %}'" {% if order_disabled %} disabled title="Order is already submitted!"  {% endif %}>Send aggregated list to staff!</button>
+            {% endif %}
+        </div>
 
-<button class="btn btn-primary btn-block" onclick="window.location='/send_order_to_staff/'" {% if order_disabled %} disabled title="Order is already submitted!"  {% endif %}>Send orders to staff!</button>
+        <div class="span8">
+            {% if orders %}
+                 <h4 align="center" style="color: darkblue;"> Current week's meals by user:</h4>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="thead-default">
+                    <tr>
+                        <th>User's name</th>
+                        <th>Meal title</th>
+                        <th>Comment</th>
+                        <th>Price</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for order in orders %}
+                        <tr>
+                            <td class="span2">{{ order.user.get_full_name }}</td>
+                            <td class="span2">{{ order.meal }}</td>
+                            <td class="span4">{{ order.comment }}</td>
+                            <td class="span2">{{ order.meal.price }} мкд</td>
+                            <td class="span1"><input type="button" class="btn btn-danger btn-mini" value="Remove"
+                                {% if order_disabled %} disabled title="Order is already submitted!"  {% endif %}
+                                onclick="window.location='{% url 'delete_meal_from_order' order.id %}'"></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div style="clear: both; float: right;">
+                    <hr/>
+                <p>Total: {{ suma }} мкд</p>
+                </div>
+            {% else %}
+                <p>No orders yet!</p>
+            {% endif %}
+
+            <button class="btn btn-primary btn-block" onclick="window.location='{% url 'send_order_to_staff' %}'" {% if order_disabled %} disabled title="Order is already submitted!"  {% endif %}>Send detailed orders to staff!</button>
+       </div>
+
+     </div>
 
 {% endblock %}

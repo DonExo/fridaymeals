@@ -6,10 +6,9 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 from meals_project.settings import RATINGS
-from friday_meals.utils import get_current_date
-#
-#os = Order.objects.filter(weekNumber=21).values('meal_id').order_by().annotate(Count('meal_id'))
-#
+from django.utils.timezone import now
+
+
 class Category(models.Model):
     title = models.CharField(_('Category title'), max_length=128, unique=True)
 
@@ -30,6 +29,7 @@ class Meal(models.Model):
 
     def __unicode__(self):
         return self.title
+
 
 class MyUserManager(BaseUserManager):
 
@@ -58,23 +58,19 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(blank=False, max_length=50)
-    last_name = models.CharField(blank=False, max_length=100)
-    email = models.EmailField(unique=True, null=True)
-    activated = models.BooleanField(default=False)
-    token = models.CharField(blank=False, max_length=50)
+    first_name = models.CharField(_('First Name'), max_length=50, blank=False)
+    last_name = models.CharField(_('Last Name'), max_length=100, blank=False)
+    email = models.EmailField(_('E-mail address'), unique=True, null=True)
+    activated = models.BooleanField(_('Designates whether the user is activated (Default: False)'), default=False)
+    token = models.CharField(_('Generated token for user activation'), max_length=50, blank=False)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
-        help_text=_('Designates whether the user can log into this site.'),
+        help_text=_('Designates whether the user can log into this site\'s Admin section.'),
     )
     is_active = models.BooleanField(
         _('active'),
         default=True,
-        help_text=_(
-            'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
-        ),
     )
 
     USERNAME_FIELD = 'email'
@@ -96,14 +92,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Order(models.Model):
     user = models.ForeignKey(User)
     meal = models.ForeignKey(Meal)
-    date = models.DateField(default=get_current_date)
+    date = models.DateField(default=now)
     weekNumber = models.IntegerField()
     comment = models.TextField(blank=True)
     rating = models.CharField(max_length=2, choices=RATINGS, blank=True)
 
     class Meta:
         ordering = ['-weekNumber', 'user']
-
 
 
 class SubmitOrder(models.Model):

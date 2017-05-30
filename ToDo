@@ -1,16 +1,32 @@
 1. include urls vo application
-2. reverse url namesto hard-codirani
-3. "_" to "-" vo url-a
 4. first() to 404 (get_objects_or_404)
 4.1 learn more about 404 http error status
 5. Examine django admin, drill down, tree i drugi opcii
-messages.success namesto messages.add_message()
-6. max_length sekogas prvo vo models
-7. dodaj "_" za translate na modelite
 8. Da dzirnam za signali povekje
 9. AppConfig istrazi
 10. CamelCase to snake_case
+11 return render u novi redovi sekoj object
+get_searched_meals i assign_category vo utils da proba da gi stavam
 
 Da implementiram koga sum na nekoj meal - da mozam vednas PICK THIS MEAL za tekovna nedela
-Da sredam aggregated Order Lsit u AdminPanel
 PDF Format za print
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', views.index, name='index' ),
+    url(r'^meal/(?P<id>\d+)/$', views.meal, name='meal'),
+    url(r'^category/$', views.category, name='category'),
+    url(r'^category/(?P<id>\d+)/$', views.category_items, name='category_items'),
+    url(r'^login/$', views.login_view, name='login' ),
+    url(r'^logout/$', views.logout_view, name='logout' ),
+    url(r'^register/$', views.register, name='register' ),
+    url(r'^profile/$', views.profile, name='profile' ),
+    url(r'^admin_panel/$', views.admin_panel, name='admin_panel' ),
+    url(r'^assign_category/$', views.assign_category, name='assign_category' ),
+    url(r'^reset_meal/$', views.reset_meal, name='reset_meal' ),
+    url(r'^search_meals/$', views.search_meals, name='search_meals' ),
+    url(r'^send_order_to_staff/$', views.send_order_to_staff, name='send_order_to_staff' ),
+    url(r'^admin_undo_order/$', views.admin_undo_order, name='admin_undo_order' ),
+    url(r'^delete_meal_from_order/(?P<id>\d+)/$', views.delete_meal_from_order, name='delete_meal_from_order' ),
+    url(r'^activate_token/(?P<token>\d+-\d+)/$', views.activate_token, name='activate_token' ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

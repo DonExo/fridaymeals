@@ -1,32 +1,28 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, render_to_response, get_object_or_404
-from django.template.loader import render_to_string
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.messages import get_messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.mail import send_mail
+from django.urls import reverse
 from django.db.models import Count
 from .models import User, Meal, Category, Order, SubmitOrder
 from .forms import UserRegisterForm, MealPickForm, LoginForm
 from .utils import CURRENT_WEEK
 from .emails import notify_user_deleted_meal, notify_staff_to_order, send_user_token
-import json
 from uuid import uuid4
-from datetime import datetime
+import json
+
 
 def index(request):
-    return render(request, 'friday_meals/index.html', {})
+    return render(request, 'friday_meals/index.html')
 
 
 def login_view(request):
-
     if request.method == "POST":
         login_form = LoginForm(data=request.POST)
-
         if login_form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
@@ -35,28 +31,28 @@ def login_view(request):
             if user is not None:
                 if user.activated:
                     login(request, user)
-                    messages.sucess(request, "Logged-in!")
-                    return HttpResponseRedirect('/profile/')
+                    messages.success(request, "Logged-in!")
+                    return HttpResponseRedirect(reverse('profile'))
                 else:
-                    messages.add_message(request, messages.INFO, "Activate your account! (Check your email for activation link)")
-                    return HttpResponseRedirect('/')
+                    messages.info(request, "Activate your account! (Check your email for activation link)")
+                    return HttpResponseRedirect(reverse('index'))
             else:
-                messages.add_message(request, messages.ERROR, "Invalid credentials!")
-                return HttpResponseRedirect('/login/')
+                messages.error(request, "Invalid credentials!")
+                return HttpResponseRedirect(reverse('login'))
     else:
         if request.user.is_authenticated:
-            messages.add_message(request, messages.INFO, "You are already logged-in!")
-            return HttpResponseRedirect('/profile')
+            messages.info(request, "You are already logged-in!")
+            return HttpResponseRedirect(reverse('profile'))
 
         login_form = LoginForm()
 
-    return render(request, 'friday_meals/login.html', {'login_form':login_form})
+    return render(request, 'friday_meals/login.html', {'login_form': login_form})
 
 
 def logout_view(request):
     logout(request)
-    messages.add_message(request, messages.SUCCESS, "Logged-out!")
-    return HttpResponseRedirect('/')
+    messages.success(request, "Logged-out!")
+    return HttpResponseRedirect(reverse('index'))
 
 
 def register(request):
@@ -71,15 +67,15 @@ def register(request):
             user.save()
             token = "{}-{}".format(token, user.id)
             send_user_token(token, user)
-            messages.add_message(request, messages.SUCCESS, "An e-mail has been sent to activate your account!")
-            return HttpResponseRedirect('/')
+            messages.success(request, "An e-mail has been sent to activate your account!")
+            return HttpResponseRedirect(reverse('index'))
     else:
         if request.user.is_authenticated:
-            messages.add_message(request, messages.INFO, "You are already registered and logged in!")
-            return HttpResponseRedirect('/profile')
+            messages.info(request, "You are already registered and logged in!")
+            return HttpResponseRedirect(reverse('profile'))
         user_form = UserRegisterForm()
 
-    return render(request, 'friday_meals/register.html', {'user_form': user_form, 'title':'Register'})
+    return render(request, 'friday_meals/register.html', {'user_form': user_form, 'title': 'Register'})
 
 
 def activate_token(request, token):
@@ -91,32 +87,29 @@ def activate_token(request, token):
             if not user.activated:
                 user.activated = True
                 user.save()
-                messages.add_message(request, messages.SUCCESS, "You have successfully activated your account!")
-                messages.add_message(request, messages.SUCCESS, "Please log in to start...")
-                return HttpResponseRedirect('/login/')
+                messages.success(request, "You have successfully activated your account!")
+                messages.success(request, "Please log in to start...")
+                return HttpResponseRedirect(reverse('login'))
             else:
-                messages.add_message(request, messages.INFO, "Your account is already activated!")
-                return HttpResponseRedirect('/profile/')
+                messages.info(request, "Your account is already activated!")
+                return HttpResponseRedirect(reverse('profile'))
         else:
-            messages.add_message(request, messages.ERROR, "Invalid token credentials!")
-            return HttpResponseRedirect('/')
-
+            messages.error(request, "Invalid token credentials!")
+            return HttpResponseRedirect(reverse('index'))
     else:
-        messages.add_message(request, messages.ERROR, "Invalid token credentials! (No such user)")
-        return HttpResponseRedirect('/')
+        messages.error(request, "Invalid token credentials! (No such user)")
+        return HttpResponseRedirect(reverse('index'))
 
 
 @login_required()
 def profile(request):
-    dictionary = {}
     meal_pick = MealPickForm()
     dictionary = {'title': "Profile", 'meal_pick': meal_pick}
-
     order_submitted = False
     current_week_meals = Order.objects.filter(user=request.user, weekNumber=CURRENT_WEEK)
 
-    if current_week_meals: # Zemi gi site meals za tekovnata nedela za korisnikot
-        #order_submitted = True ### Un-comment this if you want to allow only one meal per person
+    if current_week_meals:  # Zemi gi site meals za tekovnata nedela za korisnikot
+        # order_submitted = True ###  Un-comment this if you want to allow only one meal per person
         dictionary.update({'picked_meal': current_week_meals})
 
     check_submitted = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
@@ -136,8 +129,8 @@ def profile(request):
         comment = request.POST['comment']
         order = Order(user=request.user, meal_id=meal, comment=comment)
         order.save()
-        messages.add_message(request, messages.SUCCESS, "Meal picked!")
-        return HttpResponseRedirect('/profile/')
+        messages.success(request, "Meal picked!")
+        return HttpResponseRedirect(reverse('profile'))
 
     return render(request, 'friday_meals/profile.html', dictionary)
 
@@ -146,63 +139,57 @@ def profile(request):
 @staff_member_required
 def admin_panel(request):
 
-    dictionary = {}
+    orders_list = {}
     suma = 0
     get_all_orders = Order.objects.filter(weekNumber=CURRENT_WEEK)
     for order in get_all_orders:
         suma += order.meal.price
 
-    aggregatedOrderList = {} # should rename
-    aggregatedQuery = Order.objects.filter(weekNumber=CURRENT_WEEK).values('meal_id').order_by().annotate(total=Count('meal_id'))
-    for entry in aggregatedQuery:
-        meal_name = Meal.objects.filter(id=entry['meal_id']).first()
-        value = entry['total']
-        aggregatedOrderList.update({'meal_name':meal_name.title,'value':value})
-    print aggregatedOrderList
-    dictionary.update({'orders':get_all_orders, 'suma':suma, 'aggregatedOrderList':aggregatedOrderList})
+    aggregated_query = Order.objects.filter(weekNumber=CURRENT_WEEK).values('meal__title').annotate(total=Count('meal_id'))
+    aggregated_list = {entry['meal__title']: entry['total'] for entry in aggregated_query}
+
+    orders_list.update({'orders': get_all_orders, 'suma': suma, 'aggregated_orders': aggregated_list})
 
     order = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
     if order:
         if order.submitted:
-            dictionary.update({'order_disabled': 'order_disabled'})
+            orders_list.update({'order_disabled': 'order_disabled'})
 
-    return render(request, 'friday_meals/admin.html', dictionary)
+    return render(request, 'friday_meals/admin.html', orders_list)
 
 
-def meal(request, id):
-    meal = get_object_or_404(Meal, id=id)
-    dictionary = {'meal': meal, 'title':'Meal view'}
+def meal_details(request, meal_id):
+    meal = get_object_or_404(Meal, id=meal_id)
     return render(request, 'friday_meals/meal.html', {
         'meal': meal,
         'title': "Meal view"
     })
 
 
-def category(request):
-    return render(request, 'friday_meals/categories.html', {'title':'All categories'})
+def categories(request):
+    return render(request, 'friday_meals/categories.html', {'title': 'All categories'})
 
 
-def category_items(request, id):
-    category = Category.objects.filter(id=id).first()
+def category_items(request, category_id):
+    category = Category.objects.filter(id=category_id).first()
     if not category:
-        messages.add_message(request, messages.ERROR, "There is no such category!")
-        return HttpResponseRedirect('/category/')
+        messages.error(request, "There is no such category!")
+        return HttpResponseRedirect(reverse('category'))
 
-    meals = Meal.objects.filter(category=id)
-    dictionary = {'category':category, 'meals': meals, 'title':'In category view'}
+    meals = Meal.objects.filter(category=category_id)
+    dictionary = {'category': category, 'meals': meals, 'title': 'In category view'}
 
     return render(request, 'friday_meals/category_items.html', dictionary)
 
 
 def assign_category(request):
-    category = None
     meals_list = None
     if 'category' in request.GET:
         category = request.GET['category']
         cat = Category.objects.get(id=category)
         meals = Meal.objects.filter(category=cat)
 
-        meals_list = {meal.id: meal.title.encode('utf-8') for meal in meals}
+        meals_list = {meal.id: meal.title for meal in meals}
 
     return HttpResponse(json.dumps(meals_list))
 
@@ -217,12 +204,11 @@ def get_searched_meals(string=''):
 
 def search_meals(request):
     meals_list = []
-    string = ''
     if 'meal_title' in request.GET:
         string = request.GET['meal_title']
         meals_list = get_searched_meals(string)
 
-    return render(request, 'friday_meals/search_meal.html', {'meals_list':meals_list})
+    return render(request, 'friday_meals/search_meal.html', {'meals_list': meals_list})
 
 
 def reset_meal(request):
@@ -237,14 +223,14 @@ def reset_meal(request):
             for entry in query:
                 entry.delete()
         else:
-            messages.add_message(request, messages.INFO, "You haven't submitted your lunch yet!")
-            return HttpResponseRedirect('/profile/')
+            messages.info(request, "You haven't submitted your lunch yet!")
+            return HttpResponseRedirect(reverse('profile'))
 
-        messages.add_message(request, messages.INFO, "Pick your lunch again!")
-        return HttpResponseRedirect('/profile/')
+        messages.info(request, "Pick your lunch again!")
+        return HttpResponseRedirect(reverse('profile'))
     else:
-        messages.add_message(request, messages.ERROR, "You can't access this page like that!")
-        return HttpResponseRedirect('/')
+        messages.error(request, "You can't access this page like that!")
+        return HttpResponseRedirect(reverse('index'))
 
 
 @login_required
@@ -254,31 +240,30 @@ def send_order_to_staff(request):
     if 'HTTP_REFERER' in request.META:
         referer = request.META['HTTP_REFERER']
 
-    if referer and referer.rsplit('/', 2)[1] == 'admin_panel': # Check if the button was clicked from the ADMIN PROFILE panel otherwise don't do it
+    if referer and referer.rsplit('/', 2)[1] == 'admin-panel':  # Check if the button was clicked from the ADMIN PROFILE panel otherwise don't do it
         all_meals_query = Order.objects.filter(weekNumber=CURRENT_WEEK)
-
 
         suma = 0
         for order in all_meals_query:
             suma += order.meal.price
         lista = [meal for meal in all_meals_query]
 
-        notify_staff_to_order(lista, suma) # Email notification to staff member
+        notify_staff_to_order(lista, suma)  # Email notification to staff member
 
-        ordered = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK) # Check if is an order for the current week (added ability to "Undo" order)
+        ordered = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK)  # Check if is an order for the current week (added ability to "Undo" order)
         if ordered:
-            ordered.update(submitted=True) # If it is, submit it / lock it
+            ordered.update(submitted=True)  # If it is, submit it / lock it
         else:
             new_order = SubmitOrder(user=request.user, weekNumber=CURRENT_WEEK, submitted=True)
-            new_order.save() # if there isn't, make one
+            new_order.save()  # if there isn't, make one
 
-        messages.add_message(request, messages.SUCCESS, "Orders sent to staff!")
+        messages.success(request, "Orders sent to staff!")
 
-    else: # If not clicked from the PROFILE ADMIN button
-        messages.add_message(request, messages.ERROR, "You can't access this page like that!")
-        return HttpResponseRedirect('/')
+    else:  # If not clicked from the PROFILE ADMIN button
+        messages.error(request, "You can't access this page like that!")
+        return HttpResponseRedirect(reverse('index'))
 
-    return HttpResponseRedirect('/admin_panel/')
+    return HttpResponseRedirect(reverse('admin_panel'))
 
 
 @login_required
@@ -288,35 +273,33 @@ def admin_undo_order(request):
     if 'HTTP_REFERER' in request.META:
         referer = request.META['HTTP_REFERER']
 
-    if referer and referer.rsplit('/', 2)[1] == 'admin_panel':
+    if referer and referer.rsplit('/', 2)[1] == 'admin-panel':
         ordered = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
         if ordered:
             if ordered.submitted:
                 ordered.submitted = False
                 ordered.save()
-                messages.add_message(request, messages.INFO, "Order undo-ed! ")
-    else: # If not clicked from the PROFILE ADMIN button
-        messages.add_message(request, messages.ERROR, "You can't access this page like that!")
+                messages.info(request, "Order undo-ed! ")
+    else:  # If not clicked from the PROFILE ADMIN button
+        messages.error(request, "You can't access this page like that!")
         return HttpResponseRedirect('/')
-    return HttpResponseRedirect("/admin_panel/")
+    return HttpResponseRedirect(reverse('admin_panel'))
 
 
 @login_required()
-def delete_meal_from_order(request, id):
-
-    if not 'HTTP_REFERER' in request.META:
-        messages.add_message(request, messages.ERROR, "You can't access this page like that!")
-        return HttpResponseRedirect('/')
+def delete_meal_from_order(request, meal_id):
+    if 'HTTP_REFERER' not in request.META:
+        messages.error(request, "You can't access this page like that!")
+        return HttpResponseRedirect(reverse('index'))
 
     referer = request.META['HTTP_REFERER'].rsplit('/', 2)[1]
 
-    to_delete = Order.objects.filter(id=id).first()
+    to_delete = Order.objects.filter(id=meal_id).first()
     if to_delete:
         to_delete.delete()
-        messages.add_message(request, messages.SUCCESS, "Meal deleted successfully from order!")
+        messages.success(request, "Meal deleted successfully from order!")
     if referer == 'profile':
-        return HttpResponseRedirect('/profile/')
+        return HttpResponseRedirect(reverse('profile'))
     else:
-        notify_user_deleted_meal(to_delete.user) # Notify user that his meal was deleted
-        return HttpResponseRedirect('/admin_panel/')
-
+        notify_user_deleted_meal(to_delete.user)  # Notify user that his meal was deleted
+        return HttpResponseRedirect(reverse('admin_panel'))

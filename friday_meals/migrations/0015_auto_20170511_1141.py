@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
             name='submitorder',
             options={'ordering': ['-weekNumber']},
         ),
-        migrations.AlterField(
-            model_name='order',
-            name='date',
-            field=models.DateField(default=friday_meals.utils.get_current_date),
-        ),
+        # migrations.AlterField(
+        #     model_name='order',
+        #     name='date',
+        #     field=models.DateField(default=friday_meals.utils.get_current_date),
+        # ),
         migrations.AlterField(
             model_name='order',
             name='weekNumber',

@@ -20,7 +20,7 @@ body{
     color: firebrick;
 }
 
-.span4, .span5, .span6{
+.span4, .span5, .span6, .span8, .span9{
     border: 1px solid lightslategray;
     padding: 15px;
     border-radius: 10px;
