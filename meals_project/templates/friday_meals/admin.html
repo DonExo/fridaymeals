@@ -7,8 +7,8 @@
              <h2 align="center">Admin panel</h2>
     </div>
 
-    {% for n in nov %}
-        {{ n.meal_name }} - {{ n.val }}
+    {% for key, val in aggregatedOrderList.items %}
+        {{ key.meal_name }} - {{ val.value }} <br>
     {% endfor %}
 
 

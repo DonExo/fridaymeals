@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth import authenticate, login, logout
@@ -35,7 +35,7 @@ def login_view(request):
             if user is not None:
                 if user.activated:
                     login(request, user)
-                    messages.add_message(request, messages.SUCCESS, "Logged-in!")
+                    messages.sucess(request, "Logged-in!")
                     return HttpResponseRedirect('/profile/')
                 else:
                     messages.add_message(request, messages.INFO, "Activate your account! (Check your email for activation link)")
@@ -125,7 +125,7 @@ def profile(request):
         if check_submitted.submitted:
             order_submitted = True
 
-    dictionary.update({'submitted':order_submitted})
+    dictionary['submitted'] = order_submitted
 
     previous_weeks_meals = Order.objects.filter(user=request.user).exclude(weekNumber=CURRENT_WEEK).order_by('-weekNumber')
     if previous_weeks_meals:
@@ -145,43 +145,37 @@ def profile(request):
 @login_required
 @staff_member_required
 def admin_panel(request):
+
     dictionary = {}
     suma = 0
     get_all_orders = Order.objects.filter(weekNumber=CURRENT_WEEK)
-    for ord in get_all_orders:
-        suma += ord.meal.price
+    for order in get_all_orders:
+        suma += order.meal.price
 
-    nov = {}
-
-    os = Order.objects.filter(weekNumber=21).values('meal_id').order_by().annotate(total=Count('meal_id'))
-    for o in os:
-        #print o['total'], o['meal_id']
-        meal_name = Meal.objects.filter(id=o['meal_id']).first()
-        val = o['total']
-        nov.update({meal_name:val})
-    print nov
-
-
-
-    dictionary.update({'orders':get_all_orders, 'suma':suma, 'nov':nov})
+    aggregatedOrderList = {}
+    aggregatedQuery = Order.objects.filter(weekNumber=CURRENT_WEEK).values('meal_id').order_by().annotate(total=Count('meal_id'))
+    for entry in aggregatedQuery:
+        meal_name = Meal.objects.filter(id=entry['meal_id']).first()
+        value = entry['total']
+        aggregatedOrderList.update({'meal_name':meal_name.title,'value':value})
+    print aggregatedOrderList
+    dictionary.update({'orders':get_all_orders, 'suma':suma, 'aggregatedOrderList':aggregatedOrderList})
 
     order = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
     if order:
         if order.submitted:
             dictionary.update({'order_disabled': 'order_disabled'})
 
-
     return render(request, 'friday_meals/admin.html', dictionary)
 
 
 def meal(request, id):
-    meal = Meal.objects.filter(id=id).first()
-    if not meal:
-        messages.add_message(request, messages.ERROR, "There is no meal with that ID !")
-        return HttpResponseRedirect('/')
+    meal = get_object_or_404(Meal, id=id)
     dictionary = {'meal': meal, 'title':'Meal view'}
-
-    return render(request, 'friday_meals/meal.html', dictionary)
+    return render(request, 'friday_meals/meal.html', {
+        'meal': meal,
+        'title': "Meal view"
+    })
 
 
 def category(request):
@@ -201,7 +195,6 @@ def category_items(request, id):
 
 
 def assign_category(request):
-
     category = None
     meals_list = None
     if 'category' in request.GET:

@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import handler404, handler500
+from django.conf.urls.static import static
 from friday_meals import views
 
 urlpatterns = [
@@ -21,4 +23,4 @@ urlpatterns = [
     url(r'^admin_undo_order/$', views.admin_undo_order, name='admin_undo_order' ),
     url(r'^delete_meal_from_order/(?P<id>\d+)/$', views.delete_meal_from_order, name='delete_meal_from_order' ),
     url(r'^activate_token/(?P<token>\d+-\d+)/$', views.activate_token, name='activate_token' ),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

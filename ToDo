@@ -1,0 +1,16 @@
+1. include urls vo application
+2. reverse url namesto hard-codirani
+3. "_" to "-" vo url-a
+4. first() to 404 (get_objects_or_404)
+4.1 learn more about 404 http error status
+5. Examine django admin, drill down, tree i drugi opcii
+messages.success namesto messages.add_message()
+6. max_length sekogas prvo vo models
+7. dodaj "_" za translate na modelite
+8. Da dzirnam za signali povekje
+9. AppConfig istrazi
+10. CamelCase to snake_case
+
+Da implementiram koga sum na nekoj meal - da mozam vednas PICK THIS MEAL za tekovna nedela
+Da sredam aggregated Order Lsit u AdminPanel
+PDF Format za print

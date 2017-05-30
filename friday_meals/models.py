@@ -17,7 +17,7 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     def __unicode__(self):
-        return unicode(self.title)
+        return self.title
 
 
 class Meal(models.Model):
@@ -29,7 +29,7 @@ class Meal(models.Model):
     picture = models.ImageField(_('Images of the meal'), upload_to='meal_images', blank=True)
 
     def __unicode__(self):
-        return unicode(self.title)
+        return self.title
 
 class MyUserManager(BaseUserManager):
 
@@ -81,10 +81,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = MyUserManager()
 
     def __unicode__(self):
-        return unicode(self.first_name)
+        return self.first_name
 
     def __str__(self):
-        return unicode(self.first_name)
+        return self.first_name
 
     def get_full_name(self):
         return unicode(self.first_name + " " + self.last_name)
@@ -104,10 +104,6 @@ class Order(models.Model):
     class Meta:
         ordering = ['-weekNumber', 'user']
 
-    def save(self, *args, **kwargs):
-        if self.date:
-            self.weekNumber = self.date.isocalendar()[1]
-        super(Order, self).save(*args, **kwargs)
 
 
 class SubmitOrder(models.Model):

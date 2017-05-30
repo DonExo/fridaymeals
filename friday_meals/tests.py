@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+#077/535-465
 from django.test import TestCase, Client
 from django.core import mail
 from friday_meals.models import User
@@ -51,12 +51,6 @@ class RoutesTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['meal'].title, 'Мешани сирења')
         self.assertEqual(resp.context['meal'].category.title, 'Ладно мезе' )
-
-
-
-
-
-
 
     def test_send_mail(self):
         mail.send_mail(

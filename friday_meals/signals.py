@@ -1,13 +1,7 @@
-# Signals example ##
-
-from django.core.signals import request_finished
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-
-@receiver(request_finished)
-def print_it(sender, **kwargs):
-    print "Added testbranch print"
+from friday_meals.models import Order
 
 
 @receiver(pre_save, sender=Order)
