@@ -152,7 +152,7 @@ def admin_panel(request):
     for order in get_all_orders:
         suma += order.meal.price
 
-    aggregatedOrderList = {}
+    aggregatedOrderList = {} # should rename
     aggregatedQuery = Order.objects.filter(weekNumber=CURRENT_WEEK).values('meal_id').order_by().annotate(total=Count('meal_id'))
     for entry in aggregatedQuery:
         meal_name = Meal.objects.filter(id=entry['meal_id']).first()
