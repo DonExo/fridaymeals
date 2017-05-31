@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
     // Used to populate meal list depending on the selected category, in profile page
 	$('#id_categories').change(function () {
         var category = this.value;

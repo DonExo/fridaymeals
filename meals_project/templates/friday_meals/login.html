@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 
     <ul class="messages">
@@ -10,22 +8,23 @@
         {% endfor %}
     </ul>
 
-        <div class="page-header">
-             <h2 align="center">Login form</h2>
-        </div>
+    <div class="page-header">
+         <h2 align="center">Login form</h2>
+    </div>
 
-    <div class="span4" align="center">
-    <form class="form-signin" action="{% url 'login' %}" method="post" id="user_form" role="form" >
-        {% csrf_token %}
-        {% if login_form %}
-            {% for field in login_form.visible_fields %}
-				{{ field.help_text }} <br/>
-				{{ field }} <br/>
-                 <span style="color:red;">{{ field.errors }}</span>
-            {% endfor %}
-             <input type="submit" value="Login" class="btn btn-block btn-primary">
-        {% endif %}
-    </form>
+    <div class="span4 offset4" align="center" >
+        <form class="form-signin" action="{% url 'login' %}" method="post" id="user_form" role="form" >
+            {% csrf_token %}
+            {% if login_form %}
+                {% for field in login_form.visible_fields %}
+                    {{ field.help_text }} <br/>
+                    {{ field }} <br/>
+                     <span style="color:red;">{{ field.errors }}</span>
+                {% endfor %}
+                <br>
+                 <input type="submit" value="Login" class="btn btn-block btn-primary">
+            {% endif %}
+        </form>
     </div>
 
 

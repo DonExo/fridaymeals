@@ -1,21 +1,22 @@
-	{% if meals_list %}
-        <p align="center" style="border: 2px solid #e9322d"><b>Meals containing your word:</b></p>
-        <table class="table table-bordered table-striped table-hover">
-                <thead class="thead-default">
+{% if meals_list %}
+    <p align="center" style="border: 2px solid #e9322d"><b>Meals containing your word:</b></p>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-default">
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for meal in meals_list %}
                 <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Price</th>
+                    <td class="span3"><a href="{% url 'meal' meal.id %}">{{ meal.title }}</a></td>
+                    <td class="span3">{{ meal.category.title }}</td>
+                    <td class="span2">{{ meal.price }} мкд</td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for meal in meals_list %}
-                    <tr>
-                        <td class="span3"><a href="{% url 'meal' meal.id %}">{{ meal.title }}</a></td>
-                        <td class="span3">{{ meal.category.title  }}</td>
-                        <td class="span2">{{ meal.price }} мкд</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-    {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

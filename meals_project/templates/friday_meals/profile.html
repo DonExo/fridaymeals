@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 
     <div class="page-header">
          <h2 align="center">Profile page</h2>
     </div>
+
     <div class="row-fluid">
-            {% if submitted %}<h5 align="center" style="color: red;"> <u>Meals have already been submitted by staff</u>.</h5> {% endif %}
+        {% if submitted %}<h5 align="center" style="color: red;"> <u>Meals have already been submitted by staff</u>.</h5>
+        {% endif %}
+
+        <!-- Left side -->
         <div class="span6" {% if submitted %} style="z-index: 20; background-color: gray; opacity: 0.5" {% endif %}>
 
             <div class="span12">
@@ -30,35 +32,34 @@
                      {% endif %}<br/>
                      <input type="submit" value="Submit lunch!" name="submit" class="btn btn-primary btn-block">
                 </fieldset>
-            </form>
-        <hr/>
+                </form>
+                <hr/>
             </div>
 
+            <div class="span12">
+                {% if picked_meal %}
+                    <p align="center">You have chosen: </p>
 
-        <div class="span12">
-            {% if picked_meal %}
-                <p align="center">You have chosen: </p>
+                    {% for order in picked_meal %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><b>Category:</b> <a href="{% url 'category_items' order.meal.category.id %}"> {{ order.meal.category }}</a>
+                                <button {% if submitted %} disabled {% endif %} class="btn btn-danger btn-mini" style="float: right;" title="Delete meal from order" onclick="window.location='{% url 'delete_meal_from_order' order.id %}'"> X </button>
+                            </div>
+                            <div class="panel-body"><b>Meal:</b><a href="{% url 'meal' order.meal.id %}"> {{ order.meal }}</a></div>
+                            <div class="panel-footer"><b>Comment:</b> {{ order.comment }}</div>
+                          </div>
 
-                {% for order in picked_meal %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><b>Category:</b> <a href="{% url 'category_items' order.meal.category.id %}"> {{ order.meal.category }}</a>
+                    {% endfor %}
+                    <br>
+                    <input {% if submitted %} disabled {% endif %} type="button" class="btn-block btn btn-danger" value="Delete all?" onclick="window.location='{% url 'reset_meal' %}'" >
+                {% else %}
+                    <p>You haven't chosen any meals for today!</p>
+                {% endif %}
+             </div>
 
-                            <button {% if submitted %} disabled {% endif %} class="btn btn-danger btn-mini" style="float: right;" title="Delete meal from order" onclick="window.location='{% url 'delete_meal_from_order' order.id %}'"> X </button>
-                        </div>
-                        <div class="panel-body"><b>Meal:</b><a href="{% url 'meal' order.meal.id %}"> {{ order.meal }}</a></div>
-                        <div class="panel-footer"><b>Comment:</b> {{ order.comment }}</div>
-                      </div>
-
-                {% endfor %}
-                <br>
-                <input {% if submitted %} disabled {% endif %} type="button" class="btn-block btn btn-danger" value="Delete all?" onclick="window.location='{% url 'reset_meal' %}'" >
-            {% else %}
-                <p>You haven't chosen any meals for today!</p>
-            {% endif %}
-         </div>
         </div>
 
-
+        <!-- Right side -->
         <div class="span6">
             <h4>Previous week's chosen meals:</h4>
             {% if previous_meals %}
@@ -77,11 +78,6 @@
             {% endif %}
         </div>
 
-
    </div>
-
-
-
-
 
 {% endblock %}

@@ -3,12 +3,11 @@
 {% block content %}
 
 <div class="row-fluid" style="margin-top: 20px;">
-    <div class="span6">
+    <div class="span6 offset3">
             <h3 style="margin-bottom: 20px;" align="center">Listing all available categories:</h3>
     {% if categories %}
         {% for category in categories %}
              <a href="{% url 'category_items' category.id %}" ><div class="panel-heading"><b>{{ category.title }}</b> </div></a>
-
         {% endfor %}
     {% endif %}
     </div>

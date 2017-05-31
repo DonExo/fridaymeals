@@ -11,7 +11,8 @@
     <div class="page-header">
              <h2 align="center">Register form</h2>
     </div>
-    <div class="span4">
+
+    <div class="span4 offset4" align="center">
         <form action="{% url 'register' %}" method="post" id="user_form" class="form-inline" autocomplete="off">
            {% csrf_token %}
             {% for field in user_form.visible_fields %}
@@ -20,6 +21,7 @@
                     <span style="color:red;">{{ field.errors }}</span>
                     <p></p>
            {% endfor %}
+            <br>
             <input type="submit" value="Register" class="btn btn-block btn-primary">
         </form>
      </div>
