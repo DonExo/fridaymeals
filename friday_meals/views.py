@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
-from django.db.models import Count
+from django.db.models import Count, Sum
 from .models import User, Meal, Category, Order, SubmitOrder
 from .forms import UserRegisterForm, MealPickForm, LoginForm
-from .utils import CURRENT_WEEK
+from .utils import CURRENT_WEEK, get_searched_meals
 from .emails import notify_user_deleted_meal, notify_staff_to_order, send_user_token
 from uuid import uuid4
 import json
@@ -46,7 +46,9 @@ def login_view(request):
 
         login_form = LoginForm()
 
-    return render(request, 'friday_meals/login.html', {'login_form': login_form})
+    return render(request, 'friday_meals/login.html', {
+        'login_form': login_form
+    })
 
 
 def logout_view(request):
@@ -75,7 +77,10 @@ def register(request):
             return HttpResponseRedirect(reverse('profile'))
         user_form = UserRegisterForm()
 
-    return render(request, 'friday_meals/register.html', {'user_form': user_form, 'title': 'Register'})
+    return render(request, 'friday_meals/register.html', {
+        'user_form': user_form,
+        'title': 'Register'
+    })
 
 
 def activate_token(request, token):
@@ -103,26 +108,15 @@ def activate_token(request, token):
 
 @login_required()
 def profile(request):
-    meal_pick = MealPickForm()
-    dictionary = {'title': "Profile", 'meal_pick': meal_pick}
-    order_submitted = False
-    current_week_meals = Order.objects.filter(user=request.user, weekNumber=CURRENT_WEEK)
+    meal_pick_form = MealPickForm()
 
-    if current_week_meals:  # Zemi gi site meals za tekovnata nedela za korisnikot
-        # order_submitted = True ###  Un-comment this if you want to allow only one meal per person
-        dictionary.update({'picked_meal': current_week_meals})
+    current_week_meals = Order.objects.filter(user=request.user, weekNumber=CURRENT_WEEK)
+    previous_weeks_meals = Order.objects.filter(user=request.user).exclude(weekNumber=CURRENT_WEEK).order_by('-weekNumber')
 
     check_submitted = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
-
     if check_submitted:
         if check_submitted.submitted:
             order_submitted = True
-
-    dictionary['submitted'] = order_submitted
-
-    previous_weeks_meals = Order.objects.filter(user=request.user).exclude(weekNumber=CURRENT_WEEK).order_by('-weekNumber')
-    if previous_weeks_meals:
-        dictionary.update({'previous_meals': previous_weeks_meals})
 
     if request.method == "POST":
         meal = request.POST['meals']
@@ -132,30 +126,30 @@ def profile(request):
         messages.success(request, "Meal picked!")
         return HttpResponseRedirect(reverse('profile'))
 
-    return render(request, 'friday_meals/profile.html', dictionary)
+    return render(request, 'friday_meals/profile.html', {
+        'title': 'Profile',
+        'meal_pick': meal_pick_form,
+        'submitted': order_submitted if check_submitted and check_submitted.submitted else "",
+        'picked_meal': current_week_meals if current_week_meals else "",
+        'previous_meals': previous_weeks_meals if previous_weeks_meals else "",
+    })
 
 
 @login_required
 @staff_member_required
 def admin_panel(request):
+    get_all_orders = Order.objects.filter(weekNumber=CURRENT_WEEK).order_by('user')
+    suma = Order.objects.filter(weekNumber=CURRENT_WEEK).aggregate(Sum('meal__price')).values()[0]
+    aggregated_query = Order.objects.filter(weekNumber=CURRENT_WEEK).values('meal__title').order_by().annotate(total=Count('meal_id'))
+    get_aggregated_orders = {entry['meal__title']: entry['total'] for entry in aggregated_query}
+    order_submitted = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
 
-    orders_list = {}
-    suma = 0
-    get_all_orders = Order.objects.filter(weekNumber=CURRENT_WEEK)
-    for order in get_all_orders:
-        suma += order.meal.price
-
-    aggregated_query = Order.objects.filter(weekNumber=CURRENT_WEEK).values('meal__title').annotate(total=Count('meal_id'))
-    aggregated_list = {entry['meal__title']: entry['total'] for entry in aggregated_query}
-
-    orders_list.update({'orders': get_all_orders, 'suma': suma, 'aggregated_orders': aggregated_list})
-
-    order = SubmitOrder.objects.filter(weekNumber=CURRENT_WEEK).first()
-    if order:
-        if order.submitted:
-            orders_list.update({'order_disabled': 'order_disabled'})
-
-    return render(request, 'friday_meals/admin.html', orders_list)
+    return render(request, 'friday_meals/admin.html', {
+        'orders': get_all_orders,
+        'suma': suma,
+        'aggregated_orders': get_aggregated_orders,
+        'order_disabled': 'order_disabled' if order_submitted and order_submitted.submitted else ""
+    })
 
 
 def meal_details(request, meal_id):
@@ -167,7 +161,9 @@ def meal_details(request, meal_id):
 
 
 def categories(request):
-    return render(request, 'friday_meals/categories.html', {'title': 'All categories'})
+    return render(request, 'friday_meals/categories.html', {
+        'title': 'All categories'
+    })
 
 
 def category_items(request, category_id):
@@ -177,9 +173,12 @@ def category_items(request, category_id):
         return HttpResponseRedirect(reverse('category'))
 
     meals = Meal.objects.filter(category=category_id)
-    dictionary = {'category': category, 'meals': meals, 'title': 'In category view'}
 
-    return render(request, 'friday_meals/category_items.html', dictionary)
+    return render(request, 'friday_meals/category_items.html', {
+        'title': 'In category view',
+        'category': category,
+        'meals': meals,
+    })
 
 
 def assign_category(request):
@@ -194,23 +193,18 @@ def assign_category(request):
     return HttpResponse(json.dumps(meals_list))
 
 
-def get_searched_meals(string=''):
-    meals_list = []
-    if string:
-        meals_list = Meal.objects.filter(title__icontains=string)
-
-    return meals_list
-
-
 def search_meals(request):
     meals_list = []
     if 'meal_title' in request.GET:
         string = request.GET['meal_title']
         meals_list = get_searched_meals(string)
 
-    return render(request, 'friday_meals/search_meal.html', {'meals_list': meals_list})
+    return render(request, 'friday_meals/search_meal.html', {
+        'meals_list': meals_list
+    })
 
 
+@login_required
 def reset_meal(request):
     referer = None
     if 'HTTP_REFERER' in request.META:
@@ -264,6 +258,14 @@ def send_order_to_staff(request):
         return HttpResponseRedirect(reverse('index'))
 
     return HttpResponseRedirect(reverse('admin_panel'))
+
+
+@login_required
+@staff_member_required
+def email_send_aggregated_list(request):
+    #To be implemented
+    #with pdf list
+    pass
 
 
 @login_required

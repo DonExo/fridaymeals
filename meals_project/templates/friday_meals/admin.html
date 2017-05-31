@@ -34,6 +34,8 @@
                 </tbody>
                 </table>
              <button class="btn btn-primary btn-block" onclick="window.location='{% url 'send_order_to_staff' %}'" {% if order_disabled %} disabled title="Order is already submitted!"  {% endif %}>Send aggregated list to staff!</button>
+            {% else %}
+                <p>No orders yet!</p>
             {% endif %}
         </div>
 

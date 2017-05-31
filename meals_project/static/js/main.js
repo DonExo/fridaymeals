@@ -4,7 +4,7 @@ $(document).ready(function(){
     // Used to populate meal list depending on the selected category, in profile page
 	$('#id_categories').change(function () {
         var category = this.value;
-        $.getJSON('/assign-category/', {category: category}, function (data) {
+        $.getJSON('/fridays/assign-category/', {category: category}, function (data) {
             console.log(data);
             $("#id_meals").empty();
             $.each(data, function (key, value) {
@@ -22,7 +22,7 @@ $(document).ready(function(){
 	$('#meal_search').keyup(function (){
        var string;
        string = $(this).val();
-           $.get('/search-meals/', {meal_title:string}, function (data) {
+           $.get('/fridays/search-meals/', {meal_title:string}, function (data) {
            $('#searched_meals').html(data).show();
            })
     });
